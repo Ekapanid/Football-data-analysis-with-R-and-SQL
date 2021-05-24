@@ -1,0 +1,30 @@
+
+--FIND THE PLAYERS' NAME,HEIGHT AND WEIGHT (ONLY THOSE WITH HEIGHT BETWEEN 160 AND 180 CM)
+SELECT player_name as "player name",height, weight FROM Player WHERE (height<180 AND height>160) ORDER BY height DESC;
+
+--FOR A RANDOM MATCH API FIND THE TEAM'S NAME AND THE DATE OF THE MATCH 
+SELECT t.team_long_name, m.date
+FROM Match AS m 
+JOIN Team AS t ON m.home_team_api_id=t.team_api_id
+
+WHERE m.match_api_id=492478;--INSERT HERE THE RANDOM NUMBER
+
+
+--FOR EACH TEAM FIND ITS COUNTRY
+SELECT DISTINCT t.team_long_name,c.name AS "Country name"
+FROM Team as t
+JOIN  Match AS m ON t.team_api_id=m.home_team_api_id
+LEFT JOIN Country AS c ON m.country_id=c.id
+ORDER BY c.name;
+
+--FOR A RANDOM MATCH API ID ID FIND THE HOME TEAM GOALS THE AWAY TEAM GOALS THE HOME TEAM NAME AND THE AWAY TEAM NAME 
+
+SELECT s1.date,s1.team_long_name AS "home_team__name",t.team_long_name AS "away_team_name",s1.home_team_goal,s1.away_team_goal
+FROM (SELECT t.team_long_name, m.date, m.match_api_id,m.home_team_goal,m.away_team_goal,m.away_team_api_id
+FROM Match AS m 
+JOIN Team AS t ON m.home_team_api_id=t.team_api_id
+
+WHERE m.match_api_id=492478) as s1--INSERT HERE THE RANDOM NUMBER
+
+JOIN Team as t ON s1.away_team_api_id=t.team_api_id;
+
